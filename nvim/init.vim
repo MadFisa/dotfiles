@@ -114,3 +114,7 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 "let g:vimtex_compiler_method = 'latexrun'
 
 nnoremap <leader>rc :IPythonCellExecuteCell<CR>
+
+"NVimTree file explorer configs
+nnoremap \t :NvimTreeToggle<CR>
+nnoremap \r :NvimTreeRefresh<CR>
