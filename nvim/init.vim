@@ -12,7 +12,7 @@ set autoindent              " indent a new line the same amount as the line just
 set number                  " add line numbers
 set relativenumber
 set wildmode=longest,list   " get bash-like tab completions
-"set cc=80                  " set an 80 column border for good coding style
+set cc=80                  " set an 80 column border for good coding style
 filetype plugin on
 filetype plugin indent on   "allow auto-indenting depending on file type
 syntax on                   " syntax highlighting
@@ -25,15 +25,23 @@ let mapleader=","           "Change the leder key
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
+set termguicolors
+set background=dark
+"colorscheme dracula
+"colorscheme gruvbox
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/vim-easy-align'
 
-"Next few lines are for a taskbar and icons for it
-"Plug 'glepnir/galaxyline.nvim' , {'branch': 'main'}
-"Plug 'kyazdani42/nvim-web-devicons' " lua
-"Plug 'ryanoasis/vim-devicons' " vimscript 
+"Plug 'puremourning/vimspector'
+"Syntax Highlighter
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+"Snippets for creating template
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+"Next few lines are for a taskbar and icons for it
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -46,9 +54,10 @@ Plug 'dracula/vim'
 "Gruvbox themes
 Plug 'morhetz/gruvbox'
 
-
-"Syntax Highlighter
-"Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+"nvim dap for debugging
+Plug 'mfussenegger/nvim-dap'
+Plug 'mfussenegger/nvim-dap-python'
+Plug 'rcarriga/nvim-dap-ui'
 
 "Commenting
 Plug 'scrooloose/nerdcommenter'
@@ -68,36 +77,81 @@ Plug 'christoomey/vim-tmux-navigator'
 Plug 'lervag/vimtex'
 call plug#end() 
 
-lua require('config')
-set termguicolors
-set background=dark
-"colorscheme dracula
-"colorscheme gruvbox
+"-------------------------------------------------------------------------------
+"NVimTree file explorer configs
+lua require('tree')
+nnoremap \tt :NvimTreeToggle<CR>
+nnoremap \r :NvimTreeRefresh<CR>
 
+"-------------------------------------------------------------------------------
+"nvim dap config
+lua require('dap-python').setup('~/anaconda3/bin/python')
+lua require('dap-python').setup()
+lua require('nvim-dap-ui')
 
+"dap key maps
+nnoremap <silent> <F5> <Cmd>lua require'dap'.continue()<CR>
+nnoremap <silent> <F10> <Cmd>lua require'dap'.step_over()<CR>
+nnoremap <silent> <F11> <Cmd>lua require'dap'.step_into()<CR>
+nnoremap <silent> <F12> <Cmd>lua require'dap'.step_out()<CR>
+nnoremap <silent> <Leader>b <Cmd>lua require'dap'.toggle_breakpoint()<CR>
+nnoremap <silent> <Leader>B <Cmd>lua require'dap'.set_breakpoint(vim.fn.input('Breakpoint condition: '))<CR>
+nnoremap <silent> <Leader>lp <Cmd>lua require'dap'.set_breakpoint(nil, nil, vim.fn.input('Log point message: '))<CR>
+nnoremap <silent> <Leader>dr <Cmd>lua require'dap'.repl.open()<CR>
+nnoremap <silent> <Leader>dl <Cmd>lua require'dap'.run_last()<CR>
+
+"nvim dap python binding
+nnoremap <silent> \dn :lua require('dap-python').test_method()<CR>
+nnoremap <silent> \df :lua require('dap-python').test_class()<CR>
+vnoremap <silent> \ds <ESC>:lua require('dap-python').debug_selection()<CR>
+nnoremap <silent> \td :lua require('dapui').toggle()<CR>
+"-------------------------------------------------------------------------------
+" Snippet configuration 
+" Trigger configuration. You need to change this to something other than <tab> if you use one of the following:
+" - https://github.com/Valloric/YouCompleteMe
+" - https://github.com/nvim-lua/completion-nvim
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
+" Set the documentation style as numpy
+let g:ultisnips_python_style="numpy"
+
+"-------------------------------------------------------------------------------
+"Jedi configuration
 " open the go-to function in split, not another buffer
 let g:jedi#use_splits_not_buffers = "left"
 let g:jedi#smart_auto_mappings = 1
 
+"-------------------------------------------------------------------------------
+"NERDComment configuration
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
 " Use compact syntax for prettified multi-line comments
 let g:NERDCompactSexyComs = 1
 
+"-------------------------------------------------------------------------------
+"vim slime config
 " Set target for vim-slime
 let g:slime_target = "tmux" 
 let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"}
 let g:slime_python_ipython = 1
 
+"-------------------------------------------------------------------------------
+"Ipthon cell config
 " map [c and ]c to jump to the previous and next cell header
 nnoremap [c :IPythonCellPrevCell<CR>
 nnoremap ]c :IPythonCellNextCell<CR>
 
+nnoremap <leader>rc :IPythonCellExecuteCell<CR>
 " map <Leader>r to run script
 nnoremap <Leader>rr :IPythonCellRun<CR>
 " map <Leader>c to execute the current cell
 
 
+"-------------------------------------------------------------------------------
+"VimTex config
 " Viewer options: One may configure the viewer either by specifying a built-in
 " viewer method:
 let g:vimtex_view_method = 'zathura'
@@ -113,8 +167,5 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 " see ":help vimtex-compiler".
 "let g:vimtex_compiler_method = 'latexrun'
 
-nnoremap <leader>rc :IPythonCellExecuteCell<CR>
 
-"NVimTree file explorer configs
-nnoremap \t :NvimTreeToggle<CR>
-nnoremap \r :NvimTreeRefresh<CR>
+
