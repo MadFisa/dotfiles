@@ -26,17 +26,21 @@ let mapleader=","           "Change the leder key
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 set termguicolors
-set background=dark
-"colorscheme dracula
+"set background=dark
 "colorscheme gruvbox
 
 call plug#begin('~/.config/nvim/plugged')
 Plug 'junegunn/vim-easy-align'
-
-"Plug 'puremourning/vimspector'
+"Dracula colorshceme
+Plug 'Mofiqul/dracula.nvim'
 "Syntax Highlighter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
+"gitsigns on gutte
+Plug 'lewis6991/gitsigns.nvim'
+" Telescope for fuzzy finding
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 "Snippets for creating template
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -44,6 +48,7 @@ Plug 'honza/vim-snippets'
 "Next few lines are for a taskbar and icons for it
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+"Plug 'edkolev/tmuxline.vim'
 
 " File explorer
 Plug 'kyazdani42/nvim-web-devicons'
@@ -75,7 +80,39 @@ Plug 'christoomey/vim-tmux-navigator'
 
 "Vim texPlugin
 Plug 'lervag/vimtex'
+
+"Vim nvil-lspconfig
+Plug 'neovim/nvim-lspconfig'
+
+" Plug 'ryanoasis/vim-devicons' Icons without colours
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+
+"For showing indentation and newlines
+Plug 'lukas-reineke/indent-blankline.nvim'
+
+"Plugin for moving around faster
+Plug 'phaazon/hop.nvim'
 call plug#end() 
+
+colorscheme dracula
+"-------------------------------------------------------------------------------
+"Load bufferline config
+lua require("bufferline").setup{options = { mode = "tabs"}}
+"-------------------------------------------------------------------------------
+"Show Indentations
+lua vim.opt.list = true
+lua vim.opt.listchars:append("eol:↴")
+lua vim.opt.listchars:append("space:⋅")
+
+lua require("indent_blankline").setup {show_end_of_line = true,space_char_blankline = " ",}
+"-------------------------------------------------------------------------------
+"Load lsp server
+lua require("lsp")
+"-------------------------------------------------------------------------------
+"Jedi configuration
+" open the go-to function in split, not another buffer
+let g:jedi#use_splits_not_buffers = "right"
+let g:jedi#smart_auto_mappings = 1
 
 "-------------------------------------------------------------------------------
 "NVimTree file explorer configs
@@ -86,7 +123,6 @@ nnoremap \r :NvimTreeRefresh<CR>
 "-------------------------------------------------------------------------------
 "nvim dap config
 lua require('dap-python').setup('~/anaconda3/bin/python')
-lua require('dap-python').setup()
 lua require('nvim-dap-ui')
 
 "dap key maps
@@ -118,11 +154,6 @@ let g:UltiSnipsEditSplit="vertical"
 " Set the documentation style as numpy
 let g:ultisnips_python_style="numpy"
 
-"-------------------------------------------------------------------------------
-"Jedi configuration
-" open the go-to function in split, not another buffer
-let g:jedi#use_splits_not_buffers = "left"
-let g:jedi#smart_auto_mappings = 1
 
 "-------------------------------------------------------------------------------
 "NERDComment configuration
@@ -167,5 +198,19 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 " see ":help vimtex-compiler".
 "let g:vimtex_compiler_method = 'latexrun'
 
-
-
+"-------------------------------------------------------------------------------
+"hope.nvim configuration
+lua require'hop'.setup()
+lua require('misc')
+"-------------------------------------------------------------------------------
+"Telescop config Using Lua functions
+lua require('telescope').load_extension('fzf')
+nnoremap <space>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <space>f<space> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <space>fd <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
+"-------------------------------------------------------------------------------
+"Gitsign config
+lua require('git')
