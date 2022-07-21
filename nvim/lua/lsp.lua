@@ -32,10 +32,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
 
-local lsp_flags = {
-  -- This is the default in Nvim 0.7+
-  debounce_text_changes = 150,
-}
-
+require("nvim-lsp-installer").setup {install_root_dir='~/.config/nvim/lsp_servers'}
+require'lspconfig'.pylsp.setup{}
+require'lspconfig'.clangd.setup{}
+require'lspconfig'.cmake.setup{}
+require'lspconfig'.fortls.setup{}
+require'lspconfig'.texlab.setup{}
 ---Jedi Vim server
-require'lspconfig'.jedi_language_server.setup{}
+--require'lspconfig'.jedi_language_server.setup{}

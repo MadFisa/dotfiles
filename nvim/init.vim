@@ -83,6 +83,7 @@ Plug 'lervag/vimtex'
 
 "Vim nvil-lspconfig
 Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
