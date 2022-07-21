@@ -35,7 +35,8 @@ Plug 'junegunn/vim-easy-align'
 Plug 'Mofiqul/dracula.nvim'
 "Syntax Highlighter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-
+"gitsigns on gutte
+Plug 'lewis6991/gitsigns.nvim'
 " Telescope for fuzzy finding
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
@@ -205,6 +206,11 @@ lua require('misc')
 "Telescop config Using Lua functions
 lua require('telescope').load_extension('fzf')
 nnoremap <space>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <space>f<space> <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <space>fd <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
-nnoremap <space>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
+nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
+"-------------------------------------------------------------------------------
+"Gitsign config
+lua require('git')
