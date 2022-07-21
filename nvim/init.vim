@@ -36,6 +36,10 @@ Plug 'Mofiqul/dracula.nvim'
 "Syntax Highlighter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
+" Telescope for fuzzy finding
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 "Snippets for creating template
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
@@ -197,3 +201,10 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 "hope.nvim configuration
 lua require'hop'.setup()
 lua require('misc')
+"-------------------------------------------------------------------------------
+"Telescop config Using Lua functions
+lua require('telescope').load_extension('fzf')
+nnoremap <space>ff <cmd>lua require('telescope.builtin').find_files()<cr>
+nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
+nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
+nnoremap <space>fh <cmd>lua require('telescope.builtin').help_tags()<cr>
