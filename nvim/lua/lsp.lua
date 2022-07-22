@@ -31,12 +31,54 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
 end
+--  Disabling virtual text
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  underline = true,
+  update_in_insert = false,
+  severity_sort = false,
+})
 
+--set up diagnostic symbols
+local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+for type, icon in pairs(signs) do
+  local hl = "DiagnosticSign" .. type
+  vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+end
+--show diagnostic message while hovering
+-- You will likely want to reduce updatetime which affects CursorHold
+-- note: this setting is global and should be set only once
+vim.o.updatetime = 250
+vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
+
+-- Auto formatting the code
+vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+
+-- Installing lsp servers
+-- run nvim lsp installer to install individual servers
 require("nvim-lsp-installer").setup {install_root_dir='~/.config/nvim/lsp_servers'}
-require'lspconfig'.pylsp.setup{}
-require'lspconfig'.clangd.setup{}
-require'lspconfig'.cmake.setup{}
-require'lspconfig'.fortls.setup{}
-require'lspconfig'.texlab.setup{}
+
+require'lspconfig'.pylsp.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require'lspconfig'.clangd.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+
+require'lspconfig'.cmake.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require'lspconfig'.fortls.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
+require'lspconfig'.texlab.setup{
+    on_attach = on_attach,
+    flags = lsp_flags,
+}
 ---Jedi Vim server
 --require'lspconfig'.jedi_language_server.setup{}
