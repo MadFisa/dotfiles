@@ -30,26 +30,38 @@ set termguicolors
 "colorscheme gruvbox
 
 call plug#begin('~/.config/nvim/plugged')
-Plug 'junegunn/vim-easy-align'
-"Dracula colorshceme
-Plug 'Mofiqul/dracula.nvim'
+"---------- Plugins for syntax,lsp and code completion---------
 "Syntax Highlighter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-"gitsigns on gutte
-Plug 'lewis6991/gitsigns.nvim'
-" Telescope for fuzzy finding
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+"Vim nvil-lspconfig
+Plug 'neovim/nvim-lspconfig'
+Plug 'williamboman/nvim-lsp-installer'
 "Snippets for creating template
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+"gitsigns on gutter
+Plug 'lewis6991/gitsigns.nvim'
+
+"-----------Telescope stuff------------------------
+" Telescope for fuzzy finding
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+
+"----------- For looks(UI) ;)--------------------------
+"Dracula colorshceme
+Plug 'Mofiqul/dracula.nvim'"
 "Next few lines are for a taskbar and icons for it
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-"Plug 'edkolev/tmuxline.vim'
 
+
+" Plug 'ryanoasis/vim-devicons' Icons without colours
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+
+"For showing indentation and newlines
+Plug 'lukas-reineke/indent-blankline.nvim'
 " File explorer
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
@@ -67,10 +79,7 @@ Plug 'rcarriga/nvim-dap-ui'
 "Commenting
 Plug 'scrooloose/nerdcommenter'
 
-
-"Code Completion
-Plug 'davidhalter/jedi-vim'
-
+"------Moving around: Navigation and execution--------
 "Vim REPL
 Plug 'https://github.com/jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
@@ -80,16 +89,6 @@ Plug 'christoomey/vim-tmux-navigator'
 
 "Vim texPlugin
 Plug 'lervag/vimtex'
-
-"Vim nvil-lspconfig
-Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
-
-" Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
-
-"For showing indentation and newlines
-Plug 'lukas-reineke/indent-blankline.nvim'
 
 "Plugin for moving around faster
 Plug 'phaazon/hop.nvim'
@@ -109,12 +108,6 @@ lua require("indent_blankline").setup {show_end_of_line = true,space_char_blankl
 "-------------------------------------------------------------------------------
 "Load lsp server
 lua require("lsp")
-"-------------------------------------------------------------------------------
-"Jedi configuration
-" open the go-to function in split, not another buffer
-let g:jedi#use_splits_not_buffers = "right"
-let g:jedi#smart_auto_mappings = 1
-
 "-------------------------------------------------------------------------------
 "NVimTree file explorer configs
 lua require('tree')
