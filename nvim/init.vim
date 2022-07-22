@@ -36,10 +36,16 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Vim nvil-lspconfig
 Plug 'neovim/nvim-lspconfig'
 Plug 'williamboman/nvim-lsp-installer'
+"Autocompletion using cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
 "Snippets for creating template
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 "gitsigns on gutter
 Plug 'lewis6991/gitsigns.nvim'
 
@@ -93,7 +99,7 @@ Plug 'lervag/vimtex'
 "Plugin for moving around faster
 Plug 'phaazon/hop.nvim'
 call plug#end() 
-
+set completeopt=menu,menuone,noselect "cmp made me do this
 colorscheme dracula
 "-------------------------------------------------------------------------------
 "Load bufferline config
