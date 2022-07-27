@@ -154,7 +154,9 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 " Set the documentation style as numpy
 let g:ultisnips_python_style="numpy"
-
+let g:snips_author="Asif Mohamed Mandayapuram"
+let g:snips_email="asifmp97@gmail.com"
+let g:snips_github="github/MadFisa"
 
 "-------------------------------------------------------------------------------
 "NERDComment configuration
