@@ -25,6 +25,8 @@ local kind_icons = {
   Operator = "",
   TypeParameter = ""
 }
+-- Change update time for cursor holds
+vim.o.updatetime = 250
 -- Mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap=true, silent=true }
@@ -36,6 +38,21 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 -- Use an on_attach function to only map the following keys
 -- after the language server attaches to the current buffer
 local on_attach = function(client, bufnr)
+-- Show line diagnostics automatically in hover window
+vim.api.nvim_create_autocmd("CursorHold", {
+  buffer = bufnr,
+  callback = function()
+    local opts = {
+      focusable = false,
+      close_events = { "BufLeave", "CursorMoved", "InsertEnter", "FocusLost" },
+      border = 'rounded',
+      source = 'always',
+      prefix = ' ',
+      scope = 'cursor',
+    }
+    vim.diagnostic.open_float(nil, opts)
+  end
+})
   -- Enable completion triggered by <c-x><c-o>
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
@@ -47,9 +64,9 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', 'K', vim.lsp.buf.hover, bufopts)
   vim.keymap.set('n', 'gi', vim.lsp.buf.implementation, bufopts)
   vim.keymap.set('n', '<C-k>', vim.lsp.buf.signature_help, bufopts)
-  vim.keymap.set('n', '<space>wa', vim.lsp.buf.add_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wr', vim.lsp.buf.remove_workspace_folder, bufopts)
-  vim.keymap.set('n', '<space>wl', function()
+  vim.keymap.set('n', '<M-w>a', vim.lsp.buf.add_workspace_folder, bufopts)
+  vim.keymap.set('n', '<M-w>r', vim.lsp.buf.remove_workspace_folder, bufopts)
+  vim.keymap.set('n', '<M-w>l', function()
     print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
   end, bufopts)
   vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
@@ -73,11 +90,6 @@ for type, icon in pairs(signs) do
   local hl = "DiagnosticSign" .. type
   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
 end
---show diagnostic message while hovering
--- You will likely want to reduce updatetime which affects CursorHold
--- note: this setting is global and should be set only once
-vim.o.updatetime = 250
-vim.cmd [[autocmd! CursorHold,CursorHoldI * lua vim.diagnostic.open_float(nil, {focus=false})]]
 
 -- Auto formatting the code
 vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
@@ -164,32 +176,12 @@ vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
   local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Installing lsp servers
 -- run nvim lsp installer to install individual servers
-require("nvim-lsp-installer").setup {install_root_dir='~/.config/nvim/lsp_servers'}
-
-require'lspconfig'.pylsp.setup{
+require("nvim-lsp-installer").setup {install_root_dir='./lsp_servers'}
+local servers = { 'pylsp','clangd','cmake','fortls','texlab' }
+for _, lsp in ipairs(servers) do
+  require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     flags = lsp_flags,
-    capabilities = capabilities
-}
-require'lspconfig'.clangd.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities
-}
-
-require'lspconfig'.cmake.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities
-}
-require'lspconfig'.fortls.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities
-}
-require'lspconfig'.texlab.setup{
-    on_attach = on_attach,
-    flags = lsp_flags,
-    capabilities = capabilities
-}
-
+    capabilities = capabilities,
+  }
+end

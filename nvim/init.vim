@@ -26,8 +26,6 @@ let mapleader=","           "Change the leder key
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
 set termguicolors
-"set background=dark
-"colorscheme gruvbox
 
 call plug#begin('~/.config/nvim/plugged')
 "---------- Plugins for syntax,lsp and code completion---------
@@ -74,9 +72,6 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 " Dracula Theme
 Plug 'dracula/vim'
-"Gruvbox themes
-Plug 'morhetz/gruvbox'
-
 "nvim dap for debugging
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
@@ -101,6 +96,12 @@ Plug 'phaazon/hop.nvim'
 call plug#end() 
 set completeopt=menu,menuone,noselect "cmp made me do this
 colorscheme dracula
+" show the '~' characters after the end of buffers
+let g:dracula_show_end_of_buffer = 1
+" use transparent background
+let g:dracula_transparent_bg = v:true
+"set italic comment
+let g:dracula_italic_comment = 1
 "-------------------------------------------------------------------------------
 "Load bufferline config
 lua require("bufferline").setup{options = { mode = "tabs"}}
