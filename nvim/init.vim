@@ -76,9 +76,10 @@ Plug 'dracula/vim'
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
 Plug 'rcarriga/nvim-dap-ui'
-
+"---------- Commenting and Surrounding----------
 "Commenting
 Plug 'scrooloose/nerdcommenter'
+Plug 'tpope/vim-surround'
 
 "------Moving around: Navigation and execution--------
 "Vim REPL
@@ -94,6 +95,8 @@ Plug 'lervag/vimtex'
 "Plugin for moving around faster
 Plug 'phaazon/hop.nvim'
 call plug#end() 
+
+
 set completeopt=menu,menuone,noselect "cmp made me do this
 colorscheme dracula
 " show the '~' characters after the end of buffers
