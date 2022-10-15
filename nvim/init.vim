@@ -94,6 +94,9 @@ Plug 'lervag/vimtex'
 
 "Plugin for moving around faster
 Plug 'phaazon/hop.nvim'
+
+"Smooth scrolling
+Plug 'declancm/cinnamon.nvim'
 call plug#end() 
 
 
@@ -194,7 +197,7 @@ nnoremap <Leader>rr :IPythonCellRun<CR>
 let g:vimtex_view_method = 'zathura'
 
 " Or with a generic interface:
-let g:vimtex_view_general_viewer = 'okular'
+let g:vimtex_view_general_viewer = 'zathura'
 let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 
 " VimTeX uses latexmk as the default compiler backend. If you use it, which is
@@ -203,6 +206,7 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 " supported backends and further explanation is provided in the documentation,
 " see ":help vimtex-compiler".
 "let g:vimtex_compiler_method = 'latexrun'
+let maplocalleader = ","
 
 "-------------------------------------------------------------------------------
 "hope.nvim configuration
@@ -220,3 +224,6 @@ nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
 "-------------------------------------------------------------------------------
 "Gitsign config
 lua require('git')
+"-------------------------------------------------------------------------------
+"Configure cinnamon for smooth motions
+lua require('cinnamon').setup {extended_keymaps = true,  override_keymaps = true,  max_length = 500, scroll_limit = -1,}
