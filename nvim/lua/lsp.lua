@@ -173,15 +173,34 @@ vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
   })
 
   -- Setup lspconfig.
-  local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 -- Installing lsp servers
--- run nvim lsp installer to install individual servers
-require("nvim-lsp-installer").setup {install_root_dir='./lsp_servers'}
-local servers = { 'pylsp','clangd','cmake','fortls','texlab' }
+-- run mason installer to install individual servers that are not defined below.
+require("mason").setup({
+    --install_root_dir = path.concat { vim.fn.stdpath "data", "mason" },
+    install_root_dir = table.concat { vim.fn.stdpath "config", "/data/mason" },
+    ui = {
+        icons = {
+            package_installed = "✓",
+            package_pending = "➜",
+            package_uninstalled = "✗"
+        }
+    }
+})
+
+-- Automatic lsp installation and configuration. This config will automatically
+-- install any of the lsp servers defined below.
+require("mason-lspconfig").setup {
+    --ensure_installed = { "sumneko_lua", "rust_analyzer" },
+    automatic_installation = true,
+}
+
+-- The servers to install.
+local servers = { 'pylsp','clangd','cmake','fortls','texlab','julials' }
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 for _, lsp in ipairs(servers) do
   require('lspconfig')[lsp].setup {
     on_attach = on_attach,
     flags = lsp_flags,
-    capabilities = capabilities,
+    --capabilities = capabilities,
   }
 end

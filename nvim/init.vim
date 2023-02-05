@@ -25,6 +25,8 @@ let mapleader=","           "Change the leder key
 " set spell                 " enable spell check (may need to download language package)
 " set noswapfile            " disable creating swap file
 " set backupdir=~/.cache/vim " Directory to store backup files.
+lua vim.g.loaded_netrw = 1
+lua vim.g.loaded_netrwPlugin = 1
 set termguicolors
 
 call plug#begin('~/.config/nvim/plugged')
@@ -32,8 +34,9 @@ call plug#begin('~/.config/nvim/plugged')
 "Syntax Highlighter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 "Vim nvil-lspconfig
+Plug 'williamboman/mason.nvim' " Package installer
+Plug 'williamboman/mason-lspconfig.nvim' "Interface between mason and lspconfig
 Plug 'neovim/nvim-lspconfig'
-Plug 'williamboman/nvim-lsp-installer'
 "Autocompletion using cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -62,7 +65,7 @@ Plug 'vim-airline/vim-airline-themes'
 
 
 " Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v2.*' }
+Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 
 "For showing indentation and newlines
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -97,6 +100,9 @@ Plug 'phaazon/hop.nvim'
 
 "Smooth scrolling
 Plug 'declancm/cinnamon.nvim'
+
+"Kmonad syntax highlighting
+Plug 'kmonad/kmonad-vim'
 call plug#end() 
 
 
@@ -123,7 +129,7 @@ lua require("indent_blankline").setup {show_end_of_line = true,space_char_blankl
 lua require("lsp")
 "-------------------------------------------------------------------------------
 "NVimTree file explorer configs
-lua require('tree')
+lua require("nvim-tree").setup()
 nnoremap \tt :NvimTreeToggle<CR>
 nnoremap \r :NvimTreeRefresh<CR>
 
