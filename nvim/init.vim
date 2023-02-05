@@ -1,4 +1,4 @@
-set nocompatible            " disable compatibility to old-time vi
+
 set showmatch               " show matching 
 set ignorecase              " case insensitive 
 set mouse=v                 " middle-click paste with 
@@ -37,6 +37,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'williamboman/mason.nvim' " Package installer
 Plug 'williamboman/mason-lspconfig.nvim' "Interface between mason and lspconfig
 Plug 'neovim/nvim-lspconfig'
+"Plug 'SmiteshP/nvim-navic' "shows context in the status
 "Autocompletion using cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -57,12 +58,18 @@ Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 "----------- For looks(UI) ;)--------------------------
-"Dracula colorshceme
-Plug 'Mofiqul/dracula.nvim'"
-"Next few lines are for a taskbar and icons for it
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+"" Dracula Theme
+"Plug 'dracula/vim'
 
+" catppuccin colorshceme
+Plug 'catppuccin/nvim', { 'as': 'catppuccin' }
+"Next few lines are for a taskbar and icons for it
+"Plug 'vim-airline/vim-airline'
+"Plug 'vim-airline/vim-airline-themes'
+Plug 'nvim-lualine/lualine.nvim'
+"Plug 'vimpostor/vim-tpipeline' "Integrates the status line with tmux
+" If you want to have icons in your statusline choose one of these
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Plug 'ryanoasis/vim-devicons' Icons without colours
 Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
@@ -73,8 +80,6 @@ Plug 'lukas-reineke/indent-blankline.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 Plug 'kyazdani42/nvim-tree.lua'
 
-" Dracula Theme
-Plug 'dracula/vim'
 "nvim dap for debugging
 Plug 'mfussenegger/nvim-dap'
 Plug 'mfussenegger/nvim-dap-python'
@@ -107,23 +112,17 @@ call plug#end()
 
 
 set completeopt=menu,menuone,noselect "cmp made me do this
-colorscheme dracula
-" show the '~' characters after the end of buffers
-let g:dracula_show_end_of_buffer = 1
-" use transparent background
-let g:dracula_transparent_bg = v:true
-"set italic comment
-let g:dracula_italic_comment = 1
+colorscheme catppuccin-mocha
+"hope.nvim configuration and theme configs
+lua require('ui')
 "-------------------------------------------------------------------------------
-"Load bufferline config
-lua require("bufferline").setup{options = { mode = "tabs"}}
-"-------------------------------------------------------------------------------
-"Show Indentations
-lua vim.opt.list = true
-lua vim.opt.listchars:append("eol:↴")
-lua vim.opt.listchars:append("space:⋅")
-
-lua require("indent_blankline").setup {show_end_of_line = true,space_char_blankline = " ",}
+"colorscheme dracula
+"" show the '~' characters after the end of buffers
+"let g:dracula_show_end_of_buffer = 1
+"" use transparent background
+"let g:dracula_transparent_bg = v:true
+""set italic comment
+"let g:dracula_italic_comment = 1
 "-------------------------------------------------------------------------------
 "Load lsp server
 lua require("lsp")
@@ -215,15 +214,12 @@ let g:vimtex_view_general_options = '--unique file:@pdf\#src:@line@tex'
 let maplocalleader = ","
 
 "-------------------------------------------------------------------------------
-"hope.nvim configuration
-lua require'hop'.setup()
-lua require('misc')
 "-------------------------------------------------------------------------------
 "Telescop config Using Lua functions
 lua require('telescope').load_extension('fzf')
 nnoremap <space>ff <cmd>lua require('telescope.builtin').find_files()<cr>
 nnoremap <space>f<space> <cmd>lua require('telescope.builtin').find_files()<cr>
-nnoremap <space>fd <cmd>lua require('telescope.builtin').lsp_references()<cr>
+nnoremap <space>fr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
