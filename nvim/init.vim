@@ -37,7 +37,7 @@ Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'williamboman/mason.nvim' " Package installer
 Plug 'williamboman/mason-lspconfig.nvim' "Interface between mason and lspconfig
 Plug 'neovim/nvim-lspconfig'
-"Plug 'SmiteshP/nvim-navic' "shows context in the status
+Plug 'SmiteshP/nvim-navic' "shows context in the status
 "Autocompletion using cmp
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'hrsh7th/cmp-buffer'
@@ -127,8 +127,6 @@ EOF
 
 set completeopt=menu,menuone,noselect "cmp made me do this
 colorscheme catppuccin-mocha
-"hope.nvim configuration and theme configs
-lua require('ui')
 "-------------------------------------------------------------------------------
 "colorscheme dracula
 "" show the '~' characters after the end of buffers
@@ -139,7 +137,9 @@ lua require('ui')
 "let g:dracula_italic_comment = 1
 "-------------------------------------------------------------------------------
 "Load lsp server
-lua require("lsp")
+"lua require("lsp")
+"hope.nvim configuration and theme configs
+lua require('ui')
 "-------------------------------------------------------------------------------
 "NVimTree file explorer configs
 lua require("nvim-tree").setup()
@@ -237,9 +237,9 @@ nnoremap <space>fr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
-nnoremap <space>,gc <cmd>lua require('telescope.builtin').git_commits()<cr>
-nnoremap <space>,gb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
-nnoremap <space>,gb <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <space>fgc <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <space>fgf <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <space>fgb <cmd>lua require('telescope.builtin').git_branches()<cr>
 nnoremap <space>fd <cmd>lua require('telescope.builtin').diagnostics()<cr>
 "-------------------------------------------------------------------------------
 "Gitsign config

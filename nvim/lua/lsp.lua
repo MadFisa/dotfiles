@@ -25,6 +25,8 @@ local kind_icons = {
   Operator = "",
   TypeParameter = ""
 }
+--Setus up navic
+local navic = require("nvim-navic")
 -- Change update time for cursor holds
 vim.o.updatetime = 250
 -- Mappings.
@@ -200,9 +202,10 @@ vim.api.nvim_create_autocmd("CursorHold", {
       vim.keymap.set('n', '<space>f', function()
       vim.lsp.buf.format { async = true }
     end, opts)
-    --if client.server_capabilities.documentSymbolProvider then
-        --navic.attach(client, bufnr)
-    --end
+  -- sets up navic with lsp
+    if client.server_capabilities.documentSymbolProvider then
+        navic.attach(client, bufnr)
+    end
 end
 
 for _, lsp in ipairs(servers) do
@@ -212,3 +215,7 @@ for _, lsp in ipairs(servers) do
     --capabilities = capabilities,
   }
 end
+
+out_table = {}
+out_table["navic"] = navic
+return out_table
