@@ -1,4 +1,6 @@
-lsp_out = require 'lsp'
+-- Running lsp setup first so some of the things can be used for ui
+lsp_out = require('lsp')
+-- changin navic stuff for catpuccin
 navic = lsp_out["navic"]
 -- configuration for hop
 require'hop'.setup()
@@ -46,30 +48,97 @@ require("catppuccin").setup({
 })
 ---------------------------------------------------------------------------------
 -- configuration for lua line
+--
+-- Function for using gitsigns as diff source
+local function diff_source()
+  local gitsigns = vim.b.gitsigns_status_dict
+  if gitsigns then
+    return {
+      added = gitsigns.added,
+      modified = gitsigns.changed,
+      removed = gitsigns.removed
+    }
+  end
+end
+
 require('lualine').setup({
     options = {
         theme = "catppuccin",
         globalstatus=true, --single status bar even if you have splits
     },
     sections = {
+        lualine_a = {"mode", 'branch', },
+        lualine_b = {{'diff', source = diff_source}, "filename",},
         lualine_c = {
-            { 
-              function()
-                  return navic.get_location()
-              end, 
-              cond = function() 
-                  return navic.is_available()
-              end
-            },
-        }
+      -- Funtion for navic
+                      { 
+                      function()
+                          return navic.get_location()
+                      end, 
+                      cond = function() 
+                          return navic.is_available()
+                      end
+                      ,
+                        }
+                    },
+        lualine_y = {   {
+                                function()
+                                    local lsps = vim.lsp.get_active_clients({ bufnr = vim.fn.bufnr() })
+                                    local icon = require("nvim-web-devicons").get_icon_by_filetype(
+                                            vim.api.nvim_buf_get_option(0, "filetype")
+                                        )
+                                    if lsps and #lsps > 0 then
+                                        local names = {}
+                                        for _, lsp in ipairs(lsps) do
+                                            table.insert(names, lsp.name)
+                                        end
+                                        return string.format("%s %s", table.concat(names, ", "), icon)
+                                    else
+                                        return icon or ""
+                                    end
+                                end,
+                                on_click = function()
+                                    vim.api.nvim_command("LspInfo")
+                                end,
+                                --color = function()
+                                    --local _, color = require("nvim-web-devicons").get_icon_cterm_color_by_filetype(
+                                            --vim.api.nvim_buf_get_option(0, "filetype")
+                                        --)
+                                    --return { fg = color }
+                                --end,
+                            },
+        },
+        lualine_z = {
+            'progress','location'
+        },
+        
+    },
+    winbar = {
+      lualine_a = {},
+      lualine_b = {{'filetype',icon_only=true},'filename',},
+      lualine_c = {'diagnostics'
+                },
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {}
+    },
+
+    inactive_winbar = {
+      lualine_a = {},
+      lualine_b = {},
+      lualine_c = {{'filetype',icon_only=true},'filename','diagnostics'},
+      lualine_x = {},
+      lualine_y = {},
+      lualine_z = {}
     }
+
 })
 
 ---------------------------------------------------------------------------------
---Load bufferline config
-require("bufferline").setup{options = { mode = "tabs"},
-      highlights = require("catppuccin.groups.integrations.bufferline").get()
-  }
+----Load bufferline config
+--require("bufferline").setup{options = { mode = "tabs"},
+      --highlights = require("catppuccin.groups.integrations.bufferline").get()
+  --}
 
 ---------------------------------------------------------------------------------
 --Various viewing options

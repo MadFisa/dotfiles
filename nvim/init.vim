@@ -72,7 +72,7 @@ Plug 'nvim-lualine/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
 
 " Plug 'ryanoasis/vim-devicons' Icons without colours
-Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
+"Plug 'akinsho/bufferline.nvim', { 'tag': 'v3.*' }
 
 "For showing indentation and newlines
 Plug 'lukas-reineke/indent-blankline.nvim'
@@ -136,6 +136,9 @@ colorscheme catppuccin-mocha
 ""set italic comment
 "let g:dracula_italic_comment = 1
 "-------------------------------------------------------------------------------
+"-------------------------------------------------------------------------------
+"Gitsign config
+lua require('git')
 "Load lsp server
 "lua require("lsp")
 "hope.nvim configuration and theme configs
@@ -241,9 +244,6 @@ nnoremap <space>fgc <cmd>lua require('telescope.builtin').git_commits()<cr>
 nnoremap <space>fgf <cmd>lua require('telescope.builtin').git_bcommits()<cr>
 nnoremap <space>fgb <cmd>lua require('telescope.builtin').git_branches()<cr>
 nnoremap <space>fd <cmd>lua require('telescope.builtin').diagnostics()<cr>
-"-------------------------------------------------------------------------------
-"Gitsign config
-lua require('git')
 "-------------------------------------------------------------------------------
 "Configure cinnamon for smooth motions
 lua require('cinnamon').setup {extended_keymaps = true,  override_keymaps = true,  max_length = 500, scroll_limit = -1,}

@@ -25,8 +25,13 @@ local kind_icons = {
   Operator = "",
   TypeParameter = ""
 }
---Setus up navic
+--Sets up navic
+-- We need hightlight groups to work well with catpuccin
 local navic = require("nvim-navic")
+navic.setup{highlight=true}
+--.setup{
+    --highlight = true
+--}
 -- Change update time for cursor holds
 vim.o.updatetime = 250
 -- Mappings.
