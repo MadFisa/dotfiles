@@ -59,7 +59,7 @@ for type, icon in pairs(signs) do
 end
 
 -- Auto formatting the code
-vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
+--vim.cmd [[autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()]]
 
 --cmp autocompletion stuff
 -- Setup nvim-cmp.
