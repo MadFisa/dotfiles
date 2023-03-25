@@ -240,10 +240,11 @@ nnoremap <space>fr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
-nnoremap <space>fgc <cmd>lua require('telescope.builtin').git_commits()<cr>
-nnoremap <space>fgf <cmd>lua require('telescope.builtin').git_bcommits()<cr>
-nnoremap <space>fgb <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <space>,gc <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <space>,gf <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <space>,gb <cmd>lua require('telescope.builtin').git_branches()<cr>
 nnoremap <space>fd <cmd>lua require('telescope.builtin').diagnostics()<cr>
+nnoremap <space>fe <cmd>lua require('telescope.builtin').diagnostics({severity=vim.diagnostic.severity.ERROR})<cr>
 "-------------------------------------------------------------------------------
 "Configure cinnamon for smooth motions
 lua require('cinnamon').setup {extended_keymaps = true,  override_keymaps = true,  max_length = 500, scroll_limit = -1,}
