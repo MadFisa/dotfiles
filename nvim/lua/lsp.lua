@@ -196,7 +196,10 @@ vim.api.nvim_create_autocmd("CursorHold", {
   vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ca', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', 'gr', vim.lsp.buf.references, bufopts)
-  vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+  --vim.keymap.set('n', '<space>f', vim.lsp.buf.formatting, bufopts)
+      vim.keymap.set('n', '<space>f', function()
+      vim.lsp.buf.format { async = true }
+    end, opts)
     --if client.server_capabilities.documentSymbolProvider then
         --navic.attach(client, bufnr)
     --end

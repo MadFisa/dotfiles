@@ -108,8 +108,22 @@ Plug 'declancm/cinnamon.nvim'
 
 "Kmonad syntax highlighting
 Plug 'kmonad/kmonad-vim'
+
+"Installing neoorg
+Plug 'nvim-neorg/neorg' | Plug 'nvim-lua/plenary.nvim'
 call plug#end() 
 
+lua <<EOF
+require 'nvim-treesitter.configs'.setup {
+	ensure_installed = { 'norg',"c", "lua", "vim", "help"  },
+
+	highlight = {
+		enable = true,
+            -- list of language that will be disabled
+    disable = { "c", "rust" },
+	}
+}
+EOF
 
 set completeopt=menu,menuone,noselect "cmp made me do this
 colorscheme catppuccin-mocha
@@ -223,6 +237,10 @@ nnoremap <space>fr <cmd>lua require('telescope.builtin').lsp_references()<cr>
 nnoremap <space>fg <cmd>lua require('telescope.builtin').live_grep()<cr>
 nnoremap <space>fb <cmd>lua require('telescope.builtin').buffers()<cr>
 nnoremap <space>fk <cmd>lua require('telescope.builtin').keymaps()<cr>
+nnoremap <space>,gc <cmd>lua require('telescope.builtin').git_commits()<cr>
+nnoremap <space>,gb <cmd>lua require('telescope.builtin').git_bcommits()<cr>
+nnoremap <space>,gb <cmd>lua require('telescope.builtin').git_branches()<cr>
+nnoremap <space>fd <cmd>lua require('telescope.builtin').diagnostics()<cr>
 "-------------------------------------------------------------------------------
 "Gitsign config
 lua require('git')
