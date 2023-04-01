@@ -2,6 +2,13 @@
 lsp_out = require('lsp')
 -- changin navic stuff for catpuccin
 navic = lsp_out["navic"]
+-- configuration for navigator.nvim
+require('Navigator').setup()
+vim.keymap.set({'n', 't'}, '<C-h>', '<CMD>NavigatorLeft<CR>')
+vim.keymap.set({'n', 't'}, '<C-l>', '<CMD>NavigatorRight<CR>')
+vim.keymap.set({'n', 't'}, '<C-k>', '<CMD>NavigatorUp<CR>')
+vim.keymap.set({'n', 't'}, '<C-j>', '<CMD>NavigatorDown<CR>')
+vim.keymap.set({'n', 't'}, '<C-p>', '<CMD>NavigatorPrevious<CR>')
 -- configuration for hop
 require'hop'.setup()
 vim.api.nvim_set_keymap('', 'f', "<cmd>lua require'hop'.hint_char1({ direction = require'hop.hint'.HintDirection.AFTER_CURSOR, current_line_only = true })<cr>", {})

@@ -95,7 +95,10 @@ Plug 'https://github.com/jpalardy/vim-slime', { 'for': 'python' }
 Plug 'hanschen/vim-ipython-cell', { 'for': 'python' }
 
 "Vim Tmux navigator
-Plug 'christoomey/vim-tmux-navigator'
+"Plug 'christoomey/vim-tmux-navigator'
+
+"Lua version for multiplexer navigation
+Plug 'numToStr/Navigator.nvim'
 
 "Vim texPlugin
 Plug 'lervag/vimtex'
