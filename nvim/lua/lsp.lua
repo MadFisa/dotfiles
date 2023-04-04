@@ -44,11 +44,11 @@ vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist, opts)
 
 --  Disabling virtual text
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = {true,severity=vim.diagnostic.severity.ERROR},
   signs = true,
   underline = true,
   update_in_insert = false,
-  severity_sort = false,
+  severity_sort = true,
 })
 
 --set up diagnostic symbols
