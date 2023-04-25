@@ -82,6 +82,7 @@ config.keys = {
   { key = 'j', mods = 'CTRL',         action = wezterm.action.EmitEvent('ActivatePaneDirection-down') },
   { key = 'k', mods = 'CTRL',         action = wezterm.action.EmitEvent('ActivatePaneDirection-up') },
   { key = 'l', mods = 'CTRL',         action = wezterm.action.EmitEvent('ActivatePaneDirection-right') },
+  { key = ':', mods = 'LEADER|SHIFT',  action = wezterm.action.ActivateCommandPalette,},
   { key = 'u', mods = 'LEADER|SHIFT', action = wezterm.action.CharSelect {copy_on_select = true, 
                                                                         copy_to = 'ClipboardAndPrimarySelection',
                                                                        },
