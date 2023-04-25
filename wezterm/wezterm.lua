@@ -4,7 +4,7 @@ local wezterm = require 'wezterm'
 local config = {}
 config.font = wezterm.font_with_fallback{ 'Fira Code', 'JetBrains Mono'}
 -- MAke it look gooooood
-config.harfbuzz_features = {"zero" , "ss01", "cv05"}
+config.harfbuzz_features = {"zero" , "ss01", "cv05", "cv01", "ss07"}
 
 -- Keyboard stuff
 config.use_ime = false
