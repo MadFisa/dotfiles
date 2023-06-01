@@ -57,6 +57,6 @@
 
 ;; Need to do this if using org-roam in doom emacs since it pins versions for stabiliy :laugh:
 ;;
-;; (unpin! org-roam)
-;; (package! org-roam-ui)
-;; (unpin! citar-org-roam)
+(unpin! org-roam)
+(package! org-roam-ui)
+(unpin! citar-org-roam)

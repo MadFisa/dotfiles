@@ -201,6 +201,7 @@ let g:NERDCompactSexyComs = 1
 let g:slime_target = "wezterm" 
 "let g:slime_target = "tmux" 
 "let g:slime_default_config = {"socket_name": get(split($TMUX, ","), 0), "target_pane": ":.1"}
+let g:slime_bracketed_paste = 1
 let g:slime_python_ipython = 1
 "let g:slime_cell_delimiter = "#%%"
 "nmap <leader>rc <Plug>SlimeSendCell
@@ -208,7 +209,7 @@ let g:slime_python_ipython = 1
 "Ipthon cell config
 ""For some reason i Ctl-c messesup with wezterm
 let g:ipython_cell_send_ctrl_c = 0
-let g:ipython_cell_send_ctrl_u = 1
+"let g:ipython_cell_send_ctrl_u = 1
 
 " map [c and ]c to jump to the previous and next cell header
 nnoremap [c :IPythonCellPrevCell<CR>
