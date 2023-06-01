@@ -116,7 +116,8 @@
 '((sequence
         "TODO(t)"  ; A task that needs doing & is ready to do
         "PROJ(p)"  ; A project, which usually contains other tasks
-        "LOOP(r)"  ; A recurring task
+        "LOOP(l)"  ; A recurring task
+        "READ(r)"  ; A recurring task
         "STRT(s)"  ; A task that is in progress
         "WAIT(w)"  ; Something external is holding up this task
         "HOLD(h)"  ; This task is paused/on hold because of me
@@ -144,14 +145,56 @@ org-todo-keyword-faces
         ("[?]"  . +org-todo-onhold)
         ("WAIT" . +org-todo-onhold)
         ("HOLD" . +org-todo-onhold)
-        ("PROJ" . +org-todo-project)
+        ("LOOP" . +org-todo-project)
+        ("PROJ" . +org-todo-active)
         ("NO"   . +org-todo-cancel)
         ("BUG"   . +org-todo-cancel)
+        ("READ"   . +org-todo-cancel)
         ("QUESTION"   . +org-todo-cancel)
         ("KILL" . +org-todo-cancel)))
-  )
+(setq org-agenda-files '( "~/org" "~/org/journal" "~/org/roam"))
+
+;; Custom agenda view
+(setq org-agenda-start-day nil) ;today: For some reason it offsets today by 3 days. :shrug:
+(setq org-agenda-custom-commands
+      '(("d" "daily agenda view"
+         (
+          (todo "PROJ" ((org-agenda-overriding-header "Ongoing Projects")))
+          (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'day)))
+          (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
+          (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
+          (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
+          (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
+          ))
+        ("p" "planning week view"
+         (
+          (todo "BUG" ((org-agenda-overriding-header "SQUASH!")))
+          (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'week)))
+          (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
+          (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
+          (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
+          (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
+          ))
+        )
+)
+(setq org-habit-show-habits-only-for-today nil)
+)
+
 (setq-default
  delete-by-moving-to-trash t )
+
+(after! org-journal
+  (setq org-journal-enable-agenda-integration t)
+  (setq org-journal-date-format "%Y%m%d.org")
+  )
+
+;; Org-habit
+(use-package! org-habit
+  :after org
+  :config
+  (setq org-habit-following-days 14
+        org-habit-preceding-days 7
+        org-habit-show-habits t)  )
 
 (use-package! websocket
     :after org-roam)
