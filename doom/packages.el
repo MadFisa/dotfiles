@@ -60,3 +60,4 @@
 (unpin! org-roam)
 (package! org-roam-ui)
 (unpin! citar-org-roam)
+(package! org-recur)

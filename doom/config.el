@@ -154,31 +154,66 @@ org-todo-keyword-faces
         ("KILL" . +org-todo-cancel)))
 (setq org-agenda-files '( "~/org" "~/org/journal" "~/org/roam"))
 
-;; Custom agenda view
 (setq org-agenda-start-day nil) ;today: For some reason it offsets today by 3 days. :shrug:
+
+(setq org-habit-show-habits-only-for-today nil)
+;;Show habits in appropriate timestamps, default value of the variables pushes habits to the bottom.
+(setq org-agenda-sorting-strategy '(
+        (agenda time-up priority-down category-keep)
+        (todo priority-down category-keep)
+        (tags priority-down category-keep)
+        (search category-keep))
+)
+
+;; Custom agenda view
 (setq org-agenda-custom-commands
-      '(("d" "daily agenda view"
+      '(
+        ("d" "daily agenda view"
          (
-          (todo "PROJ" ((org-agenda-overriding-header "Ongoing Projects")))
-          (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'day)))
-          (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
-          (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
-          (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
-          (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
-          ))
+                (todo "PROJ" ((org-agenda-overriding-header "Ongoing Projects")))
+                (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'day)))
+                (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
+                (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
+                (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
+                (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
+         )
+         ((org-agenda-tag-filter-preset '("-mundane")))
+         )
+
+        ("D" "daily unfiltered view"
+         (
+                (todo "PROJ" ((org-agenda-overriding-header "Ongoing Projects")))
+                (agenda "" ((org-agenda-overriding-header "Today's unfiltered agenda") (org-agenda-span 'day)))
+                (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
+                (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
+                (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
+                (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
+         )
+         )
+
         ("p" "planning week view"
          (
-          (todo "BUG" ((org-agenda-overriding-header "SQUASH!")))
-          (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'week)))
-          (todo "TODO" ((org-agenda-overriding-header "Stuff TODO")))
-          (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
-          (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!")))
-          (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER")))
-          ))
+                (todo "BUG" ((org-agenda-overriding-header "SQUASH!") (org-agenda-max-todos 10)))
+                (todo "TODO" ((org-agenda-overriding-header "Stuff TODO") (org-agenda-max-todos 10)))
+                (todo "QUESTION" ((org-agenda-overriding-header "Questions??!!") (org-agenda-max-todos 5)))
+                (todo "READ" ((org-agenda-overriding-header "ULTIMATE POWER") (org-agenda-max-todos 5)))
+                (agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'week)))
+                (todo "IDEA" ((org-agenda-overriding-header "I once had an IDEA")))
+         )
+
         )
+
+        ("w" " week view"
+                ((agenda "" ((org-agenda-overriding-header "Today's agenda") (org-agenda-span 'week) )))
+                ((org-agenda-tag-filter-preset '("-mundane")))
+        )
+       )
 )
-(setq org-habit-show-habits-only-for-today nil)
+
 )
+
+;; set the separator between views as equal sign '='
+(setq org-agenda-block-separator 61)
 
 (setq-default
  delete-by-moving-to-trash t )
@@ -221,3 +256,19 @@ org-todo-keyword-faces
 (after! citar-org-roam
 (setq citar-org-roam-note-title-template "${citar-author}- ${citar-date:4}")
 )
+
+(use-package! org-recur
+  :hook ((org-mode . org-recur-mode)
+         (org-agenda-mode . org-recur-agenda-mode))
+  :demand t
+  :config
+  (define-key org-recur-mode-map (kbd "C-c d") 'org-recur-finish)
+
+  ;; Rebind the 'd' key in org-agenda (default: `org-agenda-day-view').
+  (define-key org-recur-agenda-mode-map (kbd "f") 'org-recur-finish)
+  (define-key org-recur-agenda-mode-map (kbd "C-c d") 'org-recur-finish)
+
+  (setq org-recur-finish-done t
+        org-recur-finish-archive t)
+  (setq org-recur-weekday-recurrence "mon,tue,wed,thu,fri")
+  )
