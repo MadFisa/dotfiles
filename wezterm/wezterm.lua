@@ -2,7 +2,7 @@
 local wezterm = require 'wezterm'
 -- This table will hold the configuration.
 local config = {}
-config.font = wezterm.font_with_fallback{ 'Fira Code', 'JetBrains Mono'}
+config.font = wezterm.font_with_fallback{ 'Fira Code'}
 -- MAke it look gooooood
 config.harfbuzz_features = {"zero" , "ss01", "cv05", "cv01", "ss07"}
 
