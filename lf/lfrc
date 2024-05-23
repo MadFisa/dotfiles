@@ -1,0 +1,5 @@
+cmd on-select &{{
+    lf -remote "send $id set statfmt \"$(lsd -ld --color=always "$f")\""
+}}
+push m-
+map Q push '-q
