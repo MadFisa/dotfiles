@@ -1,0 +1,67 @@
+
+#| --------------------------------------------------------------------------
+
+                          KMonad: US ansi 60% template
+
+  This file contains the `defsrc` configuration for a standard US-ansi 60%
+  keyboard. Modelled on a standard DAS-keyboard 100% with the numpad, function
+  keys, arrows, and home-cluster removed. Copy out the 'defsrc' layer to start
+  your own keyboard configuration. Copy out the `deflayer` template to easily
+  start a new layer with matching `transparent` buttons.
+
+(deflayer name
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              _              _         _    _
+)
+
+  -------------------------------------------------------------------------- |#
+(defcfg
+    input (device-file "/dev/input/by-id/usb-SONiX_USB_DEVICE-event-kbd")
+    output (uinput-sink "Kmonad kbd")
+    fallthrough true
+)
+
+(defsrc
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  tab  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  caps a    s    d    f    g    h    j    k    l    ;    '         ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt      cmp  rctl
+)
+
+(defalias
+    arr (layer-toggle arrows) ;; bind arr to a button that switched to movement layer
+    num (layer-toggle numbers) ;; bind arr to a button that switched to movement layer
+    tpc (tap-next esc ctl)    ;; esc on tap and control on hold
+    tpn (tap-next tab @num)    ;; tab on tap and numpad on hold
+    tps (tap-hold 180 s @arr)    ;; quote on s and arrow layer on hold
+)
+
+
+(deflayer base
+  esc  1    2    3    4    5    6    7    8    9    0    -    =    bspc
+  @tpn  q    w    e    r    t    y    u    i    o    p    [    ]    \
+  @tpc  a    @tps  d  f    g    h    j    k    l    ;    '         ret
+  lsft z    x    c    v    b    n    m    ,    .    /    rsft
+  lctl lmet lalt           spc            ralt      cmp  rctl
+)
+
+(deflayer arrows
+  _    _    _    _    end    _    _    _    _    _    home    _    _    _
+  _    _    _    _    _    _    _    pgup    _    _    _    _    _    _
+  _    _    _    pgdn    _    _    left    down    up    right    bspc    _    _
+  _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _              ret           _         _    _
+)
+
+(deflayer numbers
+  _    _    _    _    _    _    _    _    _    _    _    _    _    _
+  _    _    _    _    _    _    /    7    8    9    -    _    _    _
+  _    _    _    _    _    _    *    4    5    6    +    _    _
+  _    _    _    _    _    _    0    1    2    3    _    _
+  _    _    _              _              _         _    _
+)
+
